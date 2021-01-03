@@ -1,14 +1,14 @@
-import React from 'react';
-import cn from 'classnames';
+import React from "react";
+import cn from "classnames";
 
-import Header from './components/Header';
-import Messages from './components/Messages';
-import Sender from './components/Sender';
-import QuickButtons from './components/QuickButtons';
+import Header from "./components/Header";
+import Messages from "./components/Messages";
+import Sender from "./components/Sender";
+import QuickButtons from "./components/QuickButtons";
 
-import { AnyFunction } from '../../../../utils/types';
+import { AnyFunction } from "../../../../utils/types";
 
-import './style.scss';
+import "./style.scss";
 
 type Props = {
   title: string;
@@ -43,10 +43,10 @@ function Conversation({
   onQuickButtonClicked,
   onTextInputChange,
   sendButtonAlt,
-  showTimeStamp
+  showTimeStamp,
 }: Props) {
   return (
-    <div className={cn('rcw-conversation-container', className)} aria-live="polite">
+    <div className={cn("rcw-conversation-container", className)} aria-live="polite">
       <Header
         title={title}
         subtitle={subtitle}
@@ -56,6 +56,9 @@ function Conversation({
       />
       <Messages profileAvatar={profileAvatar} showTimeStamp={showTimeStamp} />
       <QuickButtons onQuickButtonClicked={onQuickButtonClicked} />
+
+      {/* <div>Hello world</div> */}
+
       <Sender
         sendMessage={sendMessage}
         placeholder={senderPlaceHolder}

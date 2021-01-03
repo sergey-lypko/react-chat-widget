@@ -1,10 +1,10 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import { useDispatch } from "react-redux";
 
-import { toggleChat, addUserMessage } from '../../store/actions';
-import { AnyFunction } from '../../utils/types';
+import { toggleChat, addUserMessage } from "../../store/actions";
+import { AnyFunction } from "../../utils/types";
 
-import WidgetLayout from './layout';
+import WidgetLayout from "./layout";
 
 type Props = {
   title: string;
@@ -27,77 +27,39 @@ type Props = {
   imagePreview?: boolean;
   zoomStep?: number;
   handleSubmit?: AnyFunction;
-}
+};
 
-function Widget({
-  title,
-  titleAvatar,
-  subtitle,
-  senderPlaceHolder,
-  profileAvatar,
-  showCloseButton,
-  fullScreenMode,
-  autofocus,
-  customLauncher,
-  handleNewUserMessage,
-  handleQuickButtonClicked,
-  handleTextInputChange,
-  chatId,
-  launcherOpenLabel,
-  launcherCloseLabel,
-  sendButtonAlt,
-  showTimeStamp,
-  imagePreview,
-  zoomStep,
-  handleSubmit
-}: Props) {
+function Widget(props: Props) {
+  const { handleQuickButtonClicked, handleSubmit, handleNewUserMessage, handleTextInputChange } = props;
+
   const dispatch = useDispatch();
 
-  const toggleConversation = () => {
-    dispatch(toggleChat());
-  }
-
-  const handleMessageSubmit = (event) => {
+  const handleMessageSubmit = event => {
     event.preventDefault();
     const userInput = event.target.message.value;
-    
-    if (!userInput.trim()) {      
-      return;      
+
+    if (!userInput.trim()) {
+      return;
     }
 
     handleSubmit?.(userInput);
     dispatch(addUserMessage(userInput));
     handleNewUserMessage(userInput);
-    event.target.message.value = '';
-  }
+    event.target.message.value = "";
+  };
 
   const onQuickButtonClicked = (event, value) => {
     event.preventDefault();
-    handleQuickButtonClicked?.(value)
-  }
+    handleQuickButtonClicked?.(value);
+  };
 
   return (
     <WidgetLayout
-      onToggleConversation={toggleConversation}
+      onToggleConversation={() => dispatch(toggleChat())}
       onSendMessage={handleMessageSubmit}
       onQuickButtonClicked={onQuickButtonClicked}
-      title={title}
-      titleAvatar={titleAvatar}
-      subtitle={subtitle}
-      senderPlaceHolder={senderPlaceHolder}
-      profileAvatar={profileAvatar}
-      showCloseButton={showCloseButton}
-      fullScreenMode={fullScreenMode}
-      autofocus={autofocus}
-      customLauncher={customLauncher}
       onTextInputChange={handleTextInputChange}
-      chatId={chatId}
-      launcherOpenLabel={launcherOpenLabel}
-      launcherCloseLabel={launcherCloseLabel}
-      sendButtonAlt={sendButtonAlt}
-      showTimeStamp={showTimeStamp}
-      imagePreview={imagePreview}
-      zoomStep={zoomStep}
+      {...props}
     />
   );
 }
