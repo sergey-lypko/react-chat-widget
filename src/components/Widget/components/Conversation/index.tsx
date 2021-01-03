@@ -1,5 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import cn from "classnames";
+
+import { GlobalState } from "src/store/types";
 
 import Header from "./components/Header";
 import Messages from "./components/Messages";
@@ -45,6 +48,12 @@ function Conversation({
   sendButtonAlt,
   showTimeStamp,
 }: Props) {
+  const { dialogConfig } = useSelector((state: GlobalState) => ({
+    dialogConfig: state.dialogConfig,
+  }));
+
+  console.log("dialogConfig: ", dialogConfig);
+
   return (
     <div className={cn("rcw-conversation-container", className)} aria-live="polite">
       <Header

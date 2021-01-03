@@ -1,10 +1,84 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { toggleChat, addUserMessage } from "../../store/actions";
+import { toggleChat, addUserMessage, setDialogConfig } from "../../store/actions";
 import { AnyFunction } from "../../utils/types";
 
 import WidgetLayout from "./layout";
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+const mockJSON = {
+  firstStepId: "stepId199",
+  script: {
+    stepId199: {
+      message: "Hi! How can I help you today?",
+      quickResponses: [
+        {
+          label: "What is your phone number?",
+          value: "stepId200",
+        },
+      ],
+    },
+    stepId202: {
+      message: "Our address is #56, 56th Ave. Please come visit us!",
+      quickResponses: [
+        {
+          label: "What is hello?",
+          value: "stepId199",
+        },
+        {
+          label: "\u042b\u0435\u0437\u0449\u0432?",
+          value: "stepId203",
+        },
+        {
+          label: "And what is your phone number?",
+          value: "stepId200",
+        },
+        {
+          label: "And what is your email?",
+          value: "stepId201",
+        },
+      ],
+    },
+    stepId200: {
+      message: "Our phone number is (024) 234-4562\nCall us 24/7",
+      quickResponses: [],
+    },
+    stepId201: {
+      message: "Our email address is email.address@example.com",
+      quickResponses: [
+        {
+          label: "What is your phone number?",
+          value: "stepId200",
+        },
+      ],
+    },
+    stepId203: {
+      message: "adsfadsfads",
+      quickResponses: [
+        {
+          label: "sdfasdf",
+          value: "stepId199",
+        },
+      ],
+    },
+  },
+  phoneNumberParameters: {},
+  testimonials: [],
+  credibilityBuilders: [],
+};
+
+function fetchMockJSON() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockJSON);
+    }, 500);
+  });
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 type Props = {
   title: string;
@@ -33,6 +107,19 @@ function Widget(props: Props) {
   const { handleQuickButtonClicked, handleSubmit, handleNewUserMessage, handleTextInputChange } = props;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    function fetchScript() {
+      fetchMockJSON().then(res => {
+        dispatch(setDialogConfig(res as any));
+        // console.log(res);
+      });
+    }
+
+    fetchScript();
+  }, []);
+
+  /* - - - - - - - - - - - - - - - - - */
 
   const handleMessageSubmit = event => {
     event.preventDefault();

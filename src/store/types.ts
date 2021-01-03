@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import { ElementType } from "react";
 
 type BaseMessage = {
   type: string;
@@ -9,11 +9,11 @@ type BaseMessage = {
   unread: boolean;
   customId?: string;
   props?: any;
-}
+};
 
 export interface Message extends BaseMessage {
   text: string;
-};
+}
 
 export type QuickButton = {
   label: string;
@@ -25,7 +25,7 @@ export interface Link extends BaseMessage {
   title: string;
   link: string;
   target: string;
-};
+}
 
 export interface LinkParams {
   link: string;
@@ -37,11 +37,16 @@ export interface CustomCompMessage extends BaseMessage {
   props: any;
 }
 
+export interface DialogConfigState {
+  firstStepId: string | undefined;
+  script: object;
+}
+
 export interface BehaviorState {
   showChat: boolean;
   disabledInput: boolean;
   messageLoader: boolean;
-};
+}
 
 export interface MessagesState {
   messages: (Message | Link | CustomCompMessage)[];
@@ -61,9 +66,10 @@ export interface ImageState {
 
 export interface FullscreenPreviewState extends ImageState {
   visible?: boolean;
-};
+}
 
 export interface GlobalState {
+  dialogConfig: DialogConfigState;
   messages: MessagesState;
   behavior: BehaviorState;
   quickButtons: QuickButtonsState;

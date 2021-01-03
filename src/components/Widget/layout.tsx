@@ -36,26 +36,18 @@ type Props = {
 };
 
 function WidgetLayout({
-  title,
-  titleAvatar,
-  subtitle,
   onSendMessage,
   onToggleConversation,
-  senderPlaceHolder,
   onQuickButtonClicked,
-  profileAvatar,
-  showCloseButton,
   fullScreenMode,
-  autofocus,
   customLauncher,
   onTextInputChange,
   chatId,
   launcherOpenLabel,
   launcherCloseLabel,
-  sendButtonAlt,
-  showTimeStamp,
   imagePreview,
   zoomStep,
+  ...props
 }: Props) {
   const dispatch = useDispatch();
   const { dissableInput, showChat, visible } = useSelector((state: GlobalState) => ({
@@ -115,21 +107,13 @@ function WidgetLayout({
     >
       {showChat && (
         <Conversation
-          title={title}
-          subtitle={subtitle}
           sendMessage={onSendMessage}
-          senderPlaceHolder={senderPlaceHolder}
-          profileAvatar={profileAvatar}
           toggleChat={onToggleConversation}
-          showCloseButton={showCloseButton}
           disabledInput={dissableInput}
-          autofocus={autofocus}
-          titleAvatar={titleAvatar}
           className={showChat ? "active" : "hidden"}
           onQuickButtonClicked={onQuickButtonClicked}
           onTextInputChange={onTextInputChange}
-          sendButtonAlt={sendButtonAlt}
-          showTimeStamp={showTimeStamp}
+          {...props}
         />
       )}
       {customLauncher
