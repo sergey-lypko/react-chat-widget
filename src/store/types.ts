@@ -37,9 +37,24 @@ export interface CustomCompMessage extends BaseMessage {
   props: any;
 }
 
-export interface DialogConfigState {
+export interface DialogQuickResponse {
+  label: string;
+  value: string;
+}
+
+export interface DialogActiveMessage {
+  message: string;
+  quickResponses: DialogQuickResponse[];
+}
+
+export interface DialogConfig {
   firstStepId: string | undefined;
   script: object;
+}
+
+export interface DialogConfigState {
+  config: DialogConfig | undefined;
+  activeMessage: DialogActiveMessage | undefined;
 }
 
 export interface BehaviorState {

@@ -1,15 +1,25 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { toggleChat, addUserMessage, setDialogConfig } from "../../store/actions";
+import { DialogConfig } from "../../store/types";
+
+import {
+  toggleChat,
+  addUserMessage,
+  setDialogConfig,
+  setDialogActiveMessage,
+  addResponseMessage,
+} from "../../store/actions";
 import { AnyFunction } from "../../utils/types";
 
 import WidgetLayout from "./layout";
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - */
-/* - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+* */
 
-const mockJSON = {
+const mockDialogScriptJSON = {
   firstStepId: "stepId199",
   script: {
     stepId199: {
@@ -29,10 +39,6 @@ const mockJSON = {
           value: "stepId199",
         },
         {
-          label: "\u042b\u0435\u0437\u0449\u0432?",
-          value: "stepId203",
-        },
-        {
           label: "And what is your phone number?",
           value: "stepId200",
         },
@@ -44,7 +50,12 @@ const mockJSON = {
     },
     stepId200: {
       message: "Our phone number is (024) 234-4562\nCall us 24/7",
-      quickResponses: [],
+      quickResponses: [
+        {
+          label: "What is your address?",
+          value: "stepId202",
+        },
+      ],
     },
     stepId201: {
       message: "Our email address is email.address@example.com",
@@ -70,15 +81,19 @@ const mockJSON = {
   credibilityBuilders: [],
 };
 
-function fetchMockJSON() {
+const mockUIJSON = {};
+
+function fetchMockDialogScript() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockJSON);
+      resolve(mockDialogScriptJSON);
     }, 500);
   });
 }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - */
+function fetchMockWidgetUI() {}
+
+/* - - - - - - - - - - - - - - - - - - - */
 
 type Props = {
   title: string;
@@ -110,16 +125,23 @@ function Widget(props: Props) {
 
   useEffect(() => {
     function fetchScript() {
-      fetchMockJSON().then(res => {
-        dispatch(setDialogConfig(res as any));
-        // console.log(res);
+      fetchMockDialogScript().then(res => {
+        const responseData = res as DialogConfig;
+
+        if (!responseData.firstStepId) return;
+
+        const firstStep = responseData.script[responseData.firstStepId];
+
+        dispatch(setDialogConfig(responseData));
+        dispatch(setDialogActiveMessage(firstStep));
+        dispatch(addResponseMessage(firstStep.message));
       });
     }
 
     fetchScript();
   }, []);
 
-  /* - - - - - - - - - - - - - - - - - */
+  /* - - - - - - - - - - - - - - - - - - - */
 
   const handleMessageSubmit = event => {
     event.preventDefault();

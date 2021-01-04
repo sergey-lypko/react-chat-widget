@@ -1,8 +1,9 @@
 import { ElementType } from "react";
 
-import { LinkParams, FullscreenPreviewState, DialogConfigState } from "../types";
+import { LinkParams, FullscreenPreviewState, DialogConfig, DialogActiveMessage } from "../types";
 
 export const SET_DIALOG_CONFIG = "DIALOG_CONFIG/SET_DIALOG_CONFIG";
+export const SET_DIALOG_ACTIVE_MESSAGE = "DIALOG_CONFIG/SET_DIALOG_ACTIVE_MESSAGE";
 export const TOGGLE_CHAT = "BEHAVIOR/TOGGLE_CHAT";
 export const TOGGLE_INPUT_DISABLED = "BEHAVIOR/TOGGLE_INPUT_DISABLED";
 export const TOGGLE_MESSAGE_LOADER = "BEHAVIOR/TOGGLE_MSG_LOADER";
@@ -19,9 +20,16 @@ export const SET_QUICK_BUTTONS = "SET_QUICK_BUTTONS";
 export const OPEN_FULLSCREEN_PREVIEW = "FULLSCREEN/OPEN_PREVIEW";
 export const CLOSE_FULLSCREEN_PREVIEW = "FULLSCREEN/CLOSE_PREVIEW";
 
+/* - - - - - - - - - - - - - - - - - - - */
+
 export interface SetDialogConfig {
   type: typeof SET_DIALOG_CONFIG;
-  config: DialogConfigState;
+  config: DialogConfig;
+}
+
+export interface SetDialogActiveMessage {
+  type: typeof SET_DIALOG_ACTIVE_MESSAGE;
+  message: DialogActiveMessage;
 }
 
 export interface ToggleChat {

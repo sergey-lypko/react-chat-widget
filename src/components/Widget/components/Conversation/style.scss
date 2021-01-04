@@ -1,6 +1,6 @@
-@import 'common';
-@import 'variables/colors';
-@import 'animation';
+@import "common";
+@import "variables/colors";
+@import "animation";
 
 .rcw-conversation-container {
   border-radius: 10px;
@@ -30,5 +30,31 @@
 @media screen and (max-width: 800px) {
   .rcw-conversation-container {
     @include conversation-container-fs;
+  }
+}
+
+.quick-responses-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 350px;
+  margin: 0;
+  padding: 10px;
+
+  li {
+    margin: 0 10px 10px 0;
+    list-style: none;
+
+    button {
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #a3eaf7;
+      border: 0;
+      transition: 0.2s ease;
+
+      &:hover {
+      }
+    }
   }
 }

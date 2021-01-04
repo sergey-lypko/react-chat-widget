@@ -1,8 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cn from "classnames";
 
-import { GlobalState } from "src/store/types";
+import { DialogQuickResponse, GlobalState } from "src/store/types";
+
+import { addUserMessage, addResponseMessage, setDialogActiveMessage } from "../../../../store/actions";
 
 import Header from "./components/Header";
 import Messages from "./components/Messages";
@@ -34,25 +36,28 @@ type Props = {
 function Conversation({
   title,
   subtitle,
-  senderPlaceHolder,
   showCloseButton,
-  disabledInput,
-  autofocus,
   className,
-  sendMessage,
   toggleChat,
   profileAvatar,
   titleAvatar,
   onQuickButtonClicked,
-  onTextInputChange,
-  sendButtonAlt,
   showTimeStamp,
 }: Props) {
-  const { dialogConfig } = useSelector((state: GlobalState) => ({
-    dialogConfig: state.dialogConfig,
+  const { dialogConfig, activeMessage } = useSelector((state: GlobalState) => ({
+    dialogConfig: state.dialogConfig.config,
+    activeMessage: state.dialogConfig.activeMessage,
   }));
 
-  console.log("dialogConfig: ", dialogConfig);
+  const dispatch = useDispatch();
+
+  const handleQuickResponseClick = (response: DialogQuickResponse) => {
+    const nextActiveStep = dialogConfig?.script[response.value];
+
+    dispatch(addUserMessage(response.label));
+    dispatch(addResponseMessage(nextActiveStep.message));
+    dispatch(setDialogActiveMessage(nextActiveStep));
+  };
 
   return (
     <div className={cn("rcw-conversation-container", className)} aria-live="polite">
@@ -66,16 +71,15 @@ function Conversation({
       <Messages profileAvatar={profileAvatar} showTimeStamp={showTimeStamp} />
       <QuickButtons onQuickButtonClicked={onQuickButtonClicked} />
 
-      {/* <div>Hello world</div> */}
-
-      <Sender
-        sendMessage={sendMessage}
-        placeholder={senderPlaceHolder}
-        disabledInput={disabledInput}
-        autofocus={autofocus}
-        onTextInputChange={onTextInputChange}
-        buttonAlt={sendButtonAlt}
-      />
+      <ul className="quick-responses-list">
+        {activeMessage?.quickResponses.map(res => {
+          return (
+            <li key={res.value}>
+              <button onClick={() => handleQuickResponseClick(res)}>{res.label}</button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

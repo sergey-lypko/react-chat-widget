@@ -1,12 +1,19 @@
 import { ElementType } from "react";
 
 import * as actionsTypes from "./types";
-import { LinkParams, ImageState, DialogConfigState } from "../types";
+import { LinkParams, ImageState, DialogConfig, DialogActiveMessage } from "../types";
 
-export function setDialogConfig(config: DialogConfigState): actionsTypes.SetDialogConfig {
+export function setDialogConfig(config: DialogConfig): actionsTypes.SetDialogConfig {
   return {
     type: actionsTypes.SET_DIALOG_CONFIG,
     config,
+  };
+}
+
+export function setDialogActiveMessage(message: DialogActiveMessage): actionsTypes.SetDialogActiveMessage {
+  return {
+    type: actionsTypes.SET_DIALOG_ACTIVE_MESSAGE,
+    message,
   };
 }
 
