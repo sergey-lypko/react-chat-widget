@@ -20,9 +20,10 @@ type Props = {
 
 function Launcher({ toggle, chatId, openLabel, closeLabel }: Props) {
   const dispatch = useDispatch();
-  const { showChat, badgeCount } = useSelector((state: GlobalState) => ({
+  const { showChat, badgeCount, parameters } = useSelector((state: GlobalState) => ({
     showChat: state.behavior.showChat,
     badgeCount: state.messages.badgeCount,
+    parameters: state.dialogConfig.parameters,
   }));
 
   const toggleChat = () => {
@@ -32,6 +33,7 @@ function Launcher({ toggle, chatId, openLabel, closeLabel }: Props) {
 
   return (
     <button
+      style={{ background: parameters?.openButtonColor }}
       type="button"
       className={cn("rcw-launcher", { "rcw-hide-sm": showChat })}
       onClick={toggleChat}

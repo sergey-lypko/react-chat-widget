@@ -62,8 +62,6 @@ function Conversation({
     dispatch(setDialogActiveMessage(nextActiveStep));
   };
 
-  console.log("parameters __: ", parameters);
-
   return (
     <div className={cn("rcw-conversation-container", className)} aria-live="polite">
       <Header
@@ -80,7 +78,15 @@ function Conversation({
         {activeMessage?.quickResponses.map(res => {
           return (
             <li key={res.value}>
-              <button onClick={() => handleQuickResponseClick(res)}>{res.label}</button>
+              <button
+                style={{
+                  background: parameters?.chatOptionButtonBackgroundColor,
+                  color: parameters?.chatOptionButtonTextColor,
+                }}
+                onClick={() => handleQuickResponseClick(res)}
+              >
+                {res.label}
+              </button>
             </li>
           );
         })}

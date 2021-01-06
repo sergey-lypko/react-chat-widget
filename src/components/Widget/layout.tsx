@@ -50,10 +50,12 @@ function WidgetLayout({
   ...props
 }: Props) {
   const dispatch = useDispatch();
-  const { dissableInput, showChat, visible } = useSelector((state: GlobalState) => ({
+
+  const { dissableInput, showChat, visible, parameters } = useSelector((state: GlobalState) => ({
     showChat: state.behavior.showChat,
     dissableInput: state.behavior.disabledInput,
     visible: state.preview.visible,
+    parameters: state.dialogConfig.parameters,
   }));
 
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -100,6 +102,7 @@ function WidgetLayout({
 
   return (
     <div
+      style={{ width: parameters?.chatbotWidth }}
       className={cn("rcw-widget-container", {
         "rcw-full-screen": fullScreenMode,
         "rcw-previewer": imagePreview,
