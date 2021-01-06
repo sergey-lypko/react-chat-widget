@@ -44,12 +44,15 @@ function Conversation({
   onQuickButtonClicked,
   showTimeStamp,
 }: Props) {
-  const { dialogConfig, activeMessage } = useSelector((state: GlobalState) => ({
+  const { dialogConfig, activeMessage, parameters } = useSelector((state: GlobalState) => ({
     dialogConfig: state.dialogConfig.config,
     activeMessage: state.dialogConfig.activeMessage,
+    parameters: state.dialogConfig.parameters,
   }));
 
   const dispatch = useDispatch();
+
+  /* - - - - - - - - - - - - - - - - - - - */
 
   const handleQuickResponseClick = (response: DialogQuickResponse) => {
     const nextActiveStep = dialogConfig?.script[response.value];
@@ -58,6 +61,8 @@ function Conversation({
     dispatch(addResponseMessage(nextActiveStep.message));
     dispatch(setDialogActiveMessage(nextActiveStep));
   };
+
+  console.log("parameters __: ", parameters);
 
   return (
     <div className={cn("rcw-conversation-container", className)} aria-live="polite">

@@ -52,9 +52,27 @@ export interface DialogConfig {
   script: object;
 }
 
+export interface WidgetParameters {
+  titleFontColor: string;
+  titleBackgroundColor: string;
+  robotBackgroundColor: string;
+  robotTextColor: string;
+  userBackgroundColor: string;
+  userTextColor: string;
+  chatOptionButtonBackgroundColor: string;
+  chatOptionButtonTextColor: string;
+  openButtonColor: string;
+  linkColor: string;
+  fontSize: number;
+  chatbotWidth: number;
+  chatbotHeight: number;
+  autoopenChatbot: boolean;
+}
+
 export interface DialogConfigState {
   config: DialogConfig | undefined;
   activeMessage: DialogActiveMessage | undefined;
+  parameters: WidgetParameters | undefined;
 }
 
 export interface BehaviorState {

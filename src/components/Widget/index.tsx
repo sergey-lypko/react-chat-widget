@@ -7,6 +7,7 @@ import {
   toggleChat,
   addUserMessage,
   setDialogConfig,
+  setWidgetParameters,
   setDialogActiveMessage,
   addResponseMessage,
 } from "../../store/actions";
@@ -19,79 +20,16 @@ import WidgetLayout from "./layout";
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 * */
 
-const mockDialogScriptJSON = {
-  firstStepId: "stepId199",
-  script: {
-    stepId199: {
-      message: "Hi! How can I help you today?",
-      quickResponses: [
-        {
-          label: "What is your phone number?",
-          value: "stepId200",
-        },
-      ],
-    },
-    stepId202: {
-      message: "Our address is #56, 56th Ave. Please come visit us!",
-      quickResponses: [
-        {
-          label: "What is hello?",
-          value: "stepId199",
-        },
-        {
-          label: "And what is your phone number?",
-          value: "stepId200",
-        },
-        {
-          label: "And what is your email?",
-          value: "stepId201",
-        },
-      ],
-    },
-    stepId200: {
-      message: "Our phone number is (024) 234-4562\nCall us 24/7",
-      quickResponses: [
-        {
-          label: "What is your address?",
-          value: "stepId202",
-        },
-      ],
-    },
-    stepId201: {
-      message: "Our email address is email.address@example.com",
-      quickResponses: [
-        {
-          label: "What is your phone number?",
-          value: "stepId200",
-        },
-      ],
-    },
-    stepId203: {
-      message: "adsfadsfads",
-      quickResponses: [
-        {
-          label: "sdfasdf",
-          value: "stepId199",
-        },
-      ],
-    },
-  },
-  phoneNumberParameters: {},
-  testimonials: [],
-  credibilityBuilders: [],
+const URLS = {
+  dialogScript: "https://cs-back-dev.dancecardrx.com/media/chatbot/chatbot-4.json",
+  widgetLook: "https://cs-back-dev.dancecardrx.com/media/chatbot/chatbot-widget-parameters-4.json",
 };
 
-const mockUIJSON = {};
-
-function fetchMockDialogScript() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(mockDialogScriptJSON);
-    }, 500);
-  });
+function fetchData(url: string) {
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => data);
 }
-
-function fetchMockWidgetUI() {}
 
 /* - - - - - - - - - - - - - - - - - - - */
 
@@ -123,22 +61,25 @@ function Widget(props: Props) {
 
   const dispatch = useDispatch();
 
+  /* - - - - - - - - - - - - - - - - - - - */
+
+  function fetchWidgetData() {
+    const fetchDialogScript = fetchData(URLS.dialogScript);
+    const fetchWidgetLookConfig = fetchData(URLS.widgetLook);
+
+    Promise.all([fetchDialogScript, fetchWidgetLookConfig]).then(([script, { widgetParameters }]) => {
+      const dialogConfig = script as DialogConfig;
+      const firstStep = dialogConfig.script[dialogConfig.firstStepId as string];
+
+      dispatch(setDialogConfig(dialogConfig));
+      dispatch(setWidgetParameters(widgetParameters));
+      dispatch(setDialogActiveMessage(firstStep));
+      dispatch(addResponseMessage(firstStep.message));
+    });
+  }
+
   useEffect(() => {
-    function fetchScript() {
-      fetchMockDialogScript().then(res => {
-        const responseData = res as DialogConfig;
-
-        if (!responseData.firstStepId) return;
-
-        const firstStep = responseData.script[responseData.firstStepId];
-
-        dispatch(setDialogConfig(responseData));
-        dispatch(setDialogActiveMessage(firstStep));
-        dispatch(addResponseMessage(firstStep.message));
-      });
-    }
-
-    fetchScript();
+    fetchWidgetData();
   }, []);
 
   /* - - - - - - - - - - - - - - - - - - - */

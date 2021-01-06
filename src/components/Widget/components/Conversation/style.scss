@@ -40,10 +40,15 @@
   width: 350px;
   margin: 0;
   padding: 10px;
+  border-top: 1px solid lightgray;
 
   li {
-    margin: 0 10px 10px 0;
+    margin-right: 8px;
     list-style: none;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
 
     button {
       padding: 6px 12px;
@@ -54,6 +59,7 @@
       transition: 0.2s ease;
 
       &:hover {
+        opacity: 0.8;
       }
     }
   }
