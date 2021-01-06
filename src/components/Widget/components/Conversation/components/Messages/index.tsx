@@ -54,8 +54,6 @@ function Messages({ profileAvatar, showTimeStamp }: Props) {
     if (parameters && parameters.chatbotHeight) {
       const expectedHeight = parameters.chatbotHeight - 160;
 
-      console.log("expectedHeight: ", expectedHeight);
-
       if (expectedHeight < minimalValue) return minimalValue;
 
       return expectedHeight;

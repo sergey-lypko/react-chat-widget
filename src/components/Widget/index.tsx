@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { DialogConfig } from "../../store/types";
+import { DialogConfig, GlobalState } from "../../store/types";
 
 import {
   toggleChat,
@@ -57,6 +57,10 @@ type Props = {
 };
 
 function Widget(props: Props) {
+  const { parameters } = useSelector((state: GlobalState) => ({
+    parameters: state.dialogConfig.parameters,
+  }));
+
   const { handleQuickButtonClicked, handleSubmit, handleNewUserMessage, handleTextInputChange } = props;
 
   const dispatch = useDispatch();
@@ -81,6 +85,12 @@ function Widget(props: Props) {
   useEffect(() => {
     fetchWidgetData();
   }, []);
+
+  useEffect(() => {
+    if (parameters && parameters.autoopenChatbot) {
+      dispatch(toggleChat());
+    }
+  }, [parameters]);
 
   /* - - - - - - - - - - - - - - - - - - - */
 
