@@ -8,7 +8,6 @@ import { addUserMessage, addResponseMessage, setDialogActiveMessage } from "../.
 
 import Header from "./components/Header";
 import Messages from "./components/Messages";
-import Sender from "./components/Sender";
 import QuickButtons from "./components/QuickButtons";
 
 import { AnyFunction } from "../../../../utils/types";
@@ -34,8 +33,6 @@ type Props = {
 };
 
 function Conversation({
-  title,
-  subtitle,
   showCloseButton,
   className,
   toggleChat,
@@ -65,8 +62,8 @@ function Conversation({
   return (
     <div className={cn("rcw-conversation-container", className)} aria-live="polite">
       <Header
-        title={title}
-        subtitle={subtitle}
+        title={parameters ? parameters.title : ""}
+        subtitle={parameters ? parameters.subTitle : ""}
         toggleChat={toggleChat}
         showCloseButton={showCloseButton}
         titleAvatar={titleAvatar}

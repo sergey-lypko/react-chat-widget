@@ -64,6 +64,8 @@ export interface WidgetParameters {
   openButtonColor: string;
   linkColor: string;
   fontSize: number;
+  title: string;
+  subTitle: string;
   chatbotWidth: number;
   chatbotHeight: number;
   autoopenChatbot: boolean;
